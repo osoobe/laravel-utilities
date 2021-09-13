@@ -33,6 +33,9 @@ trait TimeDiff {
     }
 
     public function formatDateField($field) {
+        if ( empty($this->$field) ) {
+            return '';
+        }
         return $this->$field->format('Y-m-d');
     }
 

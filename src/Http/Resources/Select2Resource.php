@@ -13,7 +13,7 @@ class Select2Resource extends JsonResource
      * @return array
      */
     public function toArray($request) {
-        $configs = $request->input('select2_configs');
+        $configs = $request->input('model_configs');
         foreach($configs['includes'] as $key) {
             $data[$key] = $this->$key;
         }
