@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group([ 'prefix' => 'api', 'name' => 'api.',  "middleware" => ['auth:sanctum'] ], function() {
+Route::group([ 'prefix' => 'api', 'name' => 'api.'], function() {
     Route::get('/resources/{slug}/{format}', '\Osoobe\Utilities\Http\Controllers\AjaxController@getResource')->name('api.resource.get');
 });

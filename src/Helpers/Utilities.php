@@ -9,7 +9,18 @@ use Illuminate\Support\Str;
 
 class Utilities {
 
-    public static function getArrayValue($array, $key, $default='') {
+
+    public static function setObjectValue($obj, $key, $value) {
+        if ( !empty($value) ) {
+            $obj->$key = $value;
+        }
+    }
+
+    public static function getObjectValue($obj, $key, $default='') {
+        return ( isset($obj->$key) ) ? $obj->$key : $default;
+    }
+
+    public static function getArrayValue(array $array, $key, $default='') {
         return ( isset($array[$key]) ) ? $array[$key] : $default;
     }
 
