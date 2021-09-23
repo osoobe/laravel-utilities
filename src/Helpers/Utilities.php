@@ -191,6 +191,58 @@ class Utilities {
         return $text;
     }
 
+
+
+
+        /**
+     * @param $number
+     * @return bool|mixed|string
+     */
+    public static function formatPhoneNumber($number) {
+        $number = str_replace('+','',$number);
+        $number = str_replace(' ','',$number);
+        $number = str_replace('-','',$number);
+        $number = str_replace('(','',$number);
+        $number = str_replace(')','',$number);
+
+        // https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers
+        // https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
+        // ^[1-9]\d{1,14}$
+        if (preg_match("/^[0-9]{0,5}[0-9]{10}$/i", $number)){
+            if ( strlen($number) == 10 ) {
+                return "+1$number";
+            }
+            return "+$number";
+        }
+        return false;
+    }
+
+
+    public static function csvToArray($filename = '', $delimiter = ',') {
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if (!$header) {
+                    $header = $row;
+                } else {
+                    try {
+                        $data[] = array_combine($header, $row);
+                    } catch (\ErrorException $e) {
+                        continue;
+                    }
+                }
+            }
+            fclose($handle);
+        }
+        return $data;
+    }
+
 }
 
 

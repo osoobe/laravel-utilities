@@ -11,7 +11,7 @@ trait HasVerified
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActive($query)
+    public function scopeVerified($query)
     {
         return $query->where('verified', '=', 1);
     }
@@ -22,7 +22,7 @@ trait HasVerified
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeNotActive($query)
+    public function scopeNotVerified($query)
     {
         return $query->where('verified', '!=', 1);
     }

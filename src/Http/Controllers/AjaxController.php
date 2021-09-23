@@ -14,7 +14,7 @@ class AjaxController extends Controller {
     {
 
         $route = request()->route();
-        if ($route->getName() == 'api.resource.get') {
+        if ( !empty($route) && $route->getName() == 'api.resource.get') {
             $slug = request()->route()->parameters['slug'];
             $configs = config("api-endpoints.$slug");
             if ( $configs && !empty($configs['middleware'])) {
