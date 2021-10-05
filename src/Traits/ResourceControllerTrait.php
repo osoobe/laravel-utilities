@@ -9,7 +9,6 @@ use Osoobe\Utilities\Http\Resources\Select2Resource;
 
 trait ResourceControllerTrait {
 
-
     public function getResource(Request $request, $slug, $format='bst') {
         $configs = config("api-endpoints.$slug");
         if ( !$configs ) {
@@ -19,6 +18,10 @@ trait ResourceControllerTrait {
         }
         $class_name = $configs['model'];
         $query = $class_name::where($configs['id_column'], '!=', null);
+
+        if ( !empty($configs['helper']) ) {
+            $query = $configs['helper']($request, $query, $configs);
+        }
 
         $request->merge(['model_configs' => $configs]);
         switch ( $format ) {
