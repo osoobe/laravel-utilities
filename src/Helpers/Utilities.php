@@ -243,6 +243,17 @@ class Utilities {
         return $data;
     }
 
+
+    public static function getRequestData($keys) {
+        $data = collect(request()->all())->filter(function($value, $key) use ($keys) {
+            if ( ! in_array($key, $keys) ) {
+                return false;
+            }
+            return  !empty($value);
+        });
+        return $data->toArray();
+    }
+
 }
 
 
