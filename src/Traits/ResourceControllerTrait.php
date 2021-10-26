@@ -38,6 +38,7 @@ trait ResourceControllerTrait {
 
         $this->filterQuery($query, $term, $configs);
         $query->orderBy($sort, $order);
+        $request->merge(['model_configs' => $configs]);
         return new Select2Collection(Select2Resource::collection($query->get()));
     }
 
@@ -54,6 +55,7 @@ trait ResourceControllerTrait {
         if ( $offset != null  ) {
             $query = $query->offset($offset);
         }
+        $request->merge(['model_configs' => $configs]);
         $data = ( $limit == null && $offset == null)? $query->get() : $query->paginate($limit);
         if ( !empty($configs['resource']) ) {
             return new BootstrapTableCollection($configs['resource']::collection( $data ));
