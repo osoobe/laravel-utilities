@@ -52,6 +52,22 @@ class UtilitiesServiceProvider extends ServiceProvider
             }
         );
 
+        // Manage by blueprint
+        Blueprint::macro(
+            'userstamp', function () {
+                $this->nullableMorphs('creator');
+                $this->nullableMorphs('editor');
+            }
+        );
+        Blueprint::macro(
+            'dropUserstamp', function () {
+                $this->dropColumn('creator_id');
+                $this->dropColumn('creator_type');
+                $this->dropColumn('editor_id');
+                $this->dropColumn('editor_type');
+            }
+        );
+
 
         // Is Active
         Blueprint::macro(
@@ -76,11 +92,23 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         \Illuminate\Support\Facades\Validator::extend('phone', function($attribute, $value, $parameters, $validator) {
-            return preg_match('%^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$%i', $value) && strlen($value) >= 10;
+            return preg_match(config('validation.phone.pattern', '%^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$%i'), $value) && strlen($value) >= 10;
         });
 
         \Illuminate\Support\Facades\Validator::replacer('phone', function($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute',$attribute, ':attribute is invalid phone number');
             });
+
+
+        \Illuminate\Support\Facades\Validator::extend('password', function($attribute, $value, $parameters, $validator) {
+            return (bool) preg_match('%'. config('validation.password.pattern') .'%', $value);
+        });
+
+        \Illuminate\Support\Facades\Validator::replacer('password', function($message, $attribute, $rule, $parameters) {
+                return str_replace(':attribute',$attribute, 
+                    config(
+                        'validation.password.message'));
+            });
+
     }
 }
