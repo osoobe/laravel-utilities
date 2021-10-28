@@ -14,7 +14,8 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^7.3",
-        "illuminate/support": "^7.0|^8.0"
+        "illuminate/support": "^7.0|^8.0",
+        "alariva/laravel-email-domain-blacklist": "*"
     },
     "autoload": {
         "psr-4": {
