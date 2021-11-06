@@ -254,6 +254,23 @@ class Utilities {
         return $data->toArray();
     }
 
+    /**
+     * Get the name of the class from the class namespace.
+     *
+     * @param string|object|null $classname
+     * @return string
+     */
+    public static function getClassNameOnly($classname) {
+        if ( ! $classname ) {
+            return '';
+        }
+        if ( is_object($classname) ) {
+            $classname = get_class($classname);
+        }
+        return end(explode("\\", $classname));
+    }
+
+
 }
 
 
