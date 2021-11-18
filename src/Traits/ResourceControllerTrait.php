@@ -38,7 +38,6 @@ trait ResourceControllerTrait {
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
         $term = $request->query('term');
-
         $this->filterQuery($query, $term, $configs);
         $query->orderBy($sort, $order);
         return new Select2Collection(Select2Resource::collection($query->get()));
@@ -50,8 +49,7 @@ trait ResourceControllerTrait {
         $limit = $request->input('limit', ( $offset == null )? 50: null );
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
-        $term = $request->query('search');
-
+        $term = $request->query('term', $request->query('search', ''));
         $this->filterQuery($query, $term, $configs);
         $query->orderBy($sort, $order);
         if ( $offset != null  ) {
@@ -65,7 +63,6 @@ trait ResourceControllerTrait {
     }
 
     protected function filterQuery($query, $term, $configs) {
-
         if ( !empty($term) ) {
             if ( !empty($configs["full_text_search"]) ) {
                 $query->FullTextSearch($configs["full_text_search"], $term);

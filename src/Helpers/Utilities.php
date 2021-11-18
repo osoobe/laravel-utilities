@@ -191,6 +191,10 @@ class Utilities {
         return $text;
     }
 
+    public static function implodeWithQuotes(array $array, string $glue=','): string {
+        return  '"' . implode('"'.$glue.'"', $array) . '"';
+    }
+
 
 
 
@@ -199,6 +203,11 @@ class Utilities {
      * @return bool|mixed|string
      */
     public static function formatPhoneNumber($number) {
+
+        if ( empty($number) ) {
+            return false;
+        }
+
         $number = str_replace('+','',$number);
         $number = str_replace(' ','',$number);
         $number = str_replace('-','',$number);

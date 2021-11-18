@@ -53,4 +53,8 @@ trait HasLocation {
         return "$full_address $zip_code";
     }
 
+    public function getGoogleMapLinkAttribute() {
+        return "http://maps.google.com/?q=".$this->getFullAddress();
+    }
+
 }
