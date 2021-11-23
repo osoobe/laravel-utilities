@@ -124,6 +124,20 @@ trait TimeDiff {
 
 
     /**
+     * Scope a query to only include not expired objects.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotExpired($query) {
+        if ( !isset($this->expiry_date)) {
+            return $query;
+        }
+        return $query->whereDate('expiry_date', '>=',  Carbon::now());
+    }
+
+
+    /**
      * Scope a query for objects that were created within the last 7 days.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
