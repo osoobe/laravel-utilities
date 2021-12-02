@@ -10,6 +10,12 @@ trait FullTextSearchTrait {
          );
     }
 
+    public function scopeOrFullTextSearch($query, array $columns, string $text, bool $boolMode=false) {
+        return $query->orWhereRaw(
+            self::buildFullTextSearch($columns, $text, $boolMode)
+         );
+    }
+
     public static function buildFullTextSearch(array $columns, string $text, bool $boolMode=false) {
         $col_text = implode(',', $columns);
         $text = preg_replace('/[^a-z\d ]/i', ' ', $text);

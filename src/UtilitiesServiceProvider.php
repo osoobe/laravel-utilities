@@ -20,11 +20,11 @@ class UtilitiesServiceProvider extends ServiceProvider
         // Active status
         Blueprint::macro(
             'location', function () {
-                $this->string('country')->nullable();
-                $this->string('state')->nullable();
-                $this->string('city')->nullable();
-                $this->string('street_address')->nullable();
-                $this->string('zip_code')->nullable();
+                $this->string('country', 50)->nullable();
+                $this->string('state', 50)->nullable();
+                $this->string('city', 50)->nullable();
+                $this->string('street_address', 100)->nullable();
+                $this->string('zip_code', 15)->nullable();
             }
         );
 

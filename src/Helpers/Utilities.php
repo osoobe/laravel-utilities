@@ -2,6 +2,7 @@
 
 namespace  Osoobe\Utilities\Helpers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -16,6 +17,10 @@ class Utilities {
         }
     }
 
+    public static function setDataFromRequest(Request $request, $obj, $key) {
+        static::setObjectValue($obj, $key, $request->input($key, null));
+    }
+
     public static function getObjectValue($obj, $key, $default='') {
         return ( isset($obj->$key) ) ? $obj->$key : $default;
     }
@@ -24,6 +29,17 @@ class Utilities {
         return ( isset($array[$key]) ) ? $array[$key] : $default;
     }
 
+    public static function setArrayValue(array $array, $key, $value) {
+        if ( !empty($value) ) {
+            $array[$key] = $value;
+        }
+    }
+
+    public static function setArrayDefault(array $array, $key, $value) {
+        if ( empty($array[$key]) ) {
+            $array[$key] = $value;
+        }
+    }
 
     public static function getArrayValueOrDefault($array, $key, $default_key) {
         return ( isset($array[$key]) ) ? $array[$key] : $array[$default_key];
@@ -279,6 +295,17 @@ class Utilities {
         return end(explode("\\", $classname));
     }
 
+
+    public static function clientIP() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif( !empty($_SERVER['REMOTE_ADDR'])) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+        return "0.0.0.0";
+    }
 
 }
 
