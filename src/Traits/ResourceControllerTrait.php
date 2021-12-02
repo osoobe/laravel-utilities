@@ -19,10 +19,6 @@ trait ResourceControllerTrait {
         $class_name = $configs['model'];
         $query = $class_name::where($configs['id_column'], '!=', null);
 
-        if ( !empty($configs['helper']) ) {
-            $query = $configs['helper']($request, $query, $configs);
-        }
-
         $request->merge(['model_configs' => $configs]);
         switch ( $format ) {
             case 'select2':
@@ -38,7 +34,13 @@ trait ResourceControllerTrait {
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
         $term = $request->query('term');
-        $this->filterQuery($query, $term, $configs);
+
+        if ( !empty($configs['helper']) ) {
+            $query = $configs['helper']($request, $query, $configs);
+        } else {
+            $this->filterQuery($query, $term, $configs);
+        }
+
         $query->orderBy($sort, $order);
         $request->merge(['model_configs' => $configs]);
         return new Select2Collection(Select2Resource::collection($query->get()));
@@ -51,7 +53,14 @@ trait ResourceControllerTrait {
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
         $term = $request->query('term', $request->query('search', ''));
-        $this->filterQuery($query, $term, $configs);
+
+        if ( !empty($configs['helper']) ) {
+            $query = $configs['helper']($request, $query, $configs);
+
+        } else {
+            $this->filterQuery($query, $term, $configs);
+        }
+
         $query->orderBy($sort, $order);
         if ( $offset != null  ) {
             $query = $query->offset($offset);
