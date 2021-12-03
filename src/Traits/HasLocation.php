@@ -57,4 +57,20 @@ trait HasLocation {
         return "http://maps.google.com/?q=".$this->getFullAddress();
     }
 
+
+    /**
+     * Get address data as array
+     *
+     * @return void
+     */
+    public function getAddressArray() {
+        return [
+            "street" => $this->street_address,
+            "state" => $this->state,
+            "city" => $this->city,
+            "zip" => $this->zip_code,
+            "country" => $this->country,
+        ];
+    }
+
 }
