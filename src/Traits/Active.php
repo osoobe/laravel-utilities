@@ -27,4 +27,16 @@ trait Active
         return $query->where('is_active', '!=', 1);
     }
 
+
+    /**
+     * Scope a query to only include active objects.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHidden($query)
+    {
+        return $query->where('hidden', '=', 1);
+    }
+
 }
