@@ -29,6 +29,15 @@ trait HasLocation {
         return "$city $state_address";
     }
 
+    public function isValidLocation() {
+        return (
+            !empty($this->street_address) &&
+            !empty($this->city) &&
+            !empty($this->state) &&
+            !empty($this->country)
+        );
+    }
+
 
     /**
      * Get the given object's street, city, state and country address.
