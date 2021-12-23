@@ -27,12 +27,18 @@ class MapBoxHelper {
         }
     }
 
-    public static function getCordsFromData($mapbox_data) {
+    public static function getCordsFromData($mapbox_data, $is_point=true) {
         if ( empty($mapbox_data) ) {
             return null;
         }
         try {
             $cords = $mapbox_data['features'][0]['geometry']['coordinates'];
+            if ( ! $is_point && count( $mapbox_data['features'][0]['bbox'] ) >= 4 ) {
+                $cords = [
+                    ($mapbox_data['features'][0]['bbox'][0] + $mapbox_data['features'][0]['bbox'][2]) / 2,
+                    ($mapbox_data['features'][0]['bbox'][1] + $mapbox_data['features'][0]['bbox'][3]) / 2,
+                ];
+            }
             return (object) [
                 "latitude" => $cords[1],
                 'longitude' => $cords[0]

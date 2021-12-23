@@ -17,8 +17,8 @@ class Utilities {
         }
     }
 
-    public static function setDataFromRequest(Request $request, $obj, $key) {
-        static::setObjectValue($obj, $key, $request->input($key, null));
+    public static function setDataFromRequest(Request $request, $obj, $key, $default=null) {
+        static::setObjectValue($obj, $key, $request->input($key, $default));
     }
 
     public static function getObjectValue($obj, $key, $default='') {
@@ -305,6 +305,10 @@ class Utilities {
             return $_SERVER['REMOTE_ADDR'];
         }
         return "0.0.0.0";
+    }
+
+    public static function float2text(float $value) {
+        return rtrim(sprintf('%.20F', $value), '0');
     }
 
 }
