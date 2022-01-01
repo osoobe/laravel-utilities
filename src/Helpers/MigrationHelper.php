@@ -23,7 +23,7 @@ class MigrationHelper {
         $col_text = implode(',', $columns);
         // try {
             DB::statement("ALTER TABLE $table ADD FULLTEXT `$index` ($col_text)");
-            DB::statement("ALTER TABLE $table ENGINE = MyISAM");
+            // DB::statement("ALTER TABLE $table ENGINE = MyISAM");
         // } catch (\Throwable $th) {
         //     Log::debug($th->getMessage());
         // }
