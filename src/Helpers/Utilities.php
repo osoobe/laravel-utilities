@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request as RequestFacade;
 
 class Utilities {
 
@@ -29,16 +30,33 @@ class Utilities {
         return ( isset($array[$key]) ) ? $array[$key] : $default;
     }
 
+
+    /**
+     * Set array default value if not null
+     *
+     * @param array $array
+     * @param mixed $key
+     * @param mixed $value
+     * @return void
+     */
     public static function setArrayValue(array $array, $key, $value) {
         if ( !empty($value) ) {
             $array[$key] = $value;
         }
     }
 
+    /**
+     * Set array default value if not null
+     *
+     * @deprecated 2.0.0
+     *
+     * @param array $array
+     * @param mixed $key
+     * @param mixed $value
+     * @return void
+     */
     public static function setArrayDefault(array $array, $key, $value) {
-        if ( empty($array[$key]) ) {
-            $array[$key] = $value;
-        }
+        return static::setArrayValue($array, $key, $value);
     }
 
     public static function getArrayValueOrDefault($array, $key, $default_key) {
@@ -277,6 +295,43 @@ class Utilities {
             return  !empty($value);
         });
         return $data->toArray();
+    }
+
+    /**
+     * Dynamic url route generator
+     *
+     * @param mixed $param
+     * @return string
+     */
+    public static function dynamicRoute($param) {
+        if ( is_string($param) ) {
+            return route($param);
+        }
+
+        if ( is_string($param[1]) ) {
+            return route($param[0], [$param[1]]);
+        }
+
+        return route(...$param);
+
+    }
+
+    /**
+     * Dynamic url route generator
+     *
+     * @param mixed $param
+     * @return string
+     */
+    public static function IsDynamicRoute($param) {
+        if ( is_string($param) ) {
+            return RequestFacade::routeIs($param);
+        }
+
+        if ( is_string($param[1]) ) {
+            return RequestFacade::routeIs($param[0], [$param[1]]);
+        }
+
+        return RequestFacade::routeIs(...$param);
     }
 
     /**

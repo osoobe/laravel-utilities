@@ -68,6 +68,22 @@ class UtilitiesServiceProvider extends ServiceProvider
             }
         );
 
+        // Manage by blueprint
+        Blueprint::macro(
+            'userstamp', function () {
+                $this->nullableMorphs('creator');
+                $this->nullableMorphs('editor');
+            }
+        );
+        Blueprint::macro(
+            'dropUserstamp', function () {
+                $this->dropColumn('creator_id');
+                $this->dropColumn('creator_type');
+                $this->dropColumn('editor_id');
+                $this->dropColumn('editor_type');
+            }
+        );
+
 
         // Is Active
         Blueprint::macro(
