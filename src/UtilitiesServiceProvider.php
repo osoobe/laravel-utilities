@@ -19,6 +19,27 @@ class UtilitiesServiceProvider extends ServiceProvider
 
         // Active status
         Blueprint::macro(
+            'addLocationIndex', function () {
+                $this->index(['country']);
+                $this->index(['state']);
+                $this->index(['city']);
+                $this->index(['street_address']);
+                $this->index(['zip_code']);
+            }
+        );
+        // Active status
+        Blueprint::macro(
+            'dropLocationIndex', function () {
+                $this->dropIndex(['country']);
+                $this->dropIndex(['state']);
+                $this->dropIndex(['city']);
+                $this->dropIndex(['street_address']);
+                $this->dropIndex(['zip_code']);
+            }
+        );
+
+        // Active status
+        Blueprint::macro(
             'location', function () {
                 $this->string('country', 50)->nullable();
                 $this->string('state', 50)->nullable();
@@ -121,7 +142,7 @@ class UtilitiesServiceProvider extends ServiceProvider
         });
 
         \Illuminate\Support\Facades\Validator::replacer('password', function($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute',$attribute, 
+                return str_replace(':attribute',$attribute,
                     config(
                         'validation.password.message'));
             });
