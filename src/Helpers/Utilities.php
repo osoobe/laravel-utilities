@@ -5,6 +5,7 @@ namespace  Osoobe\Utilities\Helpers;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 class Utilities {
@@ -252,6 +253,44 @@ class Utilities {
             return  !empty($value);
         });
         return $data->toArray();
+    }
+
+    /**
+     * Dynamic url route generator
+     *
+     * @param mixed $param
+     * @return string
+     */
+    public static function dynamicRoute($param) {
+        if ( is_string($param) ) {
+            return route($param);
+        }
+
+        if ( is_string($param[1]) ) {
+            return route($param[0], [$param[1]]);
+        }
+
+        return route(...$param);
+
+    }
+
+    /**
+     * Dynamic url route generator
+     *
+     * @param mixed $param
+     * @return string
+     */
+    public static function IsDynamicRoute($param) {
+        if ( is_string($param) ) {
+            return Request::routeIs($param);
+        }
+
+        if ( is_string($param[1]) ) {
+            return Request::routeIs($param[0], [$param[1]]);
+        }
+
+        return Request::routeIs(...$param);
+
     }
 
 }

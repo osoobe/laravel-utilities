@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Traits;
+namespace  Osoobe\Utilities\Traits;
 
-use App\Helpers\AppHelper;
-use App\NotificationSetting;
 use Illuminate\Support\Facades\Auth;
 
 trait Userstamp {
@@ -16,7 +14,7 @@ trait Userstamp {
      */
     protected static function bootUserstamp(): void {
         static::creating(function ($model) {
-            $user = AppHelper::get_auth_user();
+            $user = Auth::user();
             if ( $user ) {
                 $model->creator_id = $user->id;
                 $model->creator_type = get_class($user);
@@ -25,7 +23,7 @@ trait Userstamp {
             }
         });
         static::updating(function ($model) {
-            $user = AppHelper::get_auth_user();
+            $user = Auth::user();
             if ( $user ) {
                 $model->editor_id = $user->id;
                 $model->editor_type = get_class($user);
