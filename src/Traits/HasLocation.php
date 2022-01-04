@@ -29,6 +29,15 @@ trait HasLocation {
         return "$city $state_address";
     }
 
+    public function isValidLocation() {
+        return (
+            !empty($this->street_address) &&
+            !empty($this->city) &&
+            !empty($this->state) &&
+            !empty($this->country)
+        );
+    }
+
 
     /**
      * Get the given object's street, city, state and country address.
@@ -51,6 +60,26 @@ trait HasLocation {
         $zip_code = Utilities::getObjectValue($this, 'zip_code', '');
         $full_address = $this->getFullAddress();
         return "$full_address $zip_code";
+    }
+
+    public function getGoogleMapLinkAttribute() {
+        return "http://maps.google.com/?q=".$this->getFullAddress();
+    }
+
+
+    /**
+     * Get address data as array
+     *
+     * @return void
+     */
+    public function getAddressArray() {
+        return [
+            "street" => $this->street_address,
+            "state" => $this->state,
+            "city" => $this->city,
+            "zip" => $this->zip_code,
+            "country" => $this->country,
+        ];
     }
 
 }

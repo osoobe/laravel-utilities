@@ -2,11 +2,12 @@
 
 namespace  Osoobe\Utilities\Helpers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request as RequestFacade;
 
 class Utilities {
 
@@ -17,6 +18,10 @@ class Utilities {
         }
     }
 
+    public static function setDataFromRequest(Request $request, $obj, $key, $default=null) {
+        static::setObjectValue($obj, $key, $request->input($key, $default));
+    }
+
     public static function getObjectValue($obj, $key, $default='') {
         return ( isset($obj->$key) ) ? $obj->$key : $default;
     }
@@ -25,6 +30,34 @@ class Utilities {
         return ( isset($array[$key]) ) ? $array[$key] : $default;
     }
 
+
+    /**
+     * Set array default value if not null
+     *
+     * @param array $array
+     * @param mixed $key
+     * @param mixed $value
+     * @return void
+     */
+    public static function setArrayValue(array $array, $key, $value) {
+        if ( !empty($value) ) {
+            $array[$key] = $value;
+        }
+    }
+
+    /**
+     * Set array default value if not null
+     *
+     * @deprecated 2.0.0
+     *
+     * @param array $array
+     * @param mixed $key
+     * @param mixed $value
+     * @return void
+     */
+    public static function setArrayDefault(array $array, $key, $value) {
+        return static::setArrayValue($array, $key, $value);
+    }
 
     public static function getArrayValueOrDefault($array, $key, $default_key) {
         return ( isset($array[$key]) ) ? $array[$key] : $array[$default_key];
@@ -192,6 +225,10 @@ class Utilities {
         return $text;
     }
 
+    public static function implodeWithQuotes(array $array, string $glue=','): string {
+        return  '"' . implode('"'.$glue.'"', $array) . '"';
+    }
+
 
 
 
@@ -200,6 +237,11 @@ class Utilities {
      * @return bool|mixed|string
      */
     public static function formatPhoneNumber($number) {
+
+        if ( empty($number) ) {
+            return false;
+        }
+
         $number = str_replace('+','',$number);
         $number = str_replace(' ','',$number);
         $number = str_replace('-','',$number);
@@ -282,15 +324,46 @@ class Utilities {
      */
     public static function IsDynamicRoute($param) {
         if ( is_string($param) ) {
-            return Request::routeIs($param);
+            return RequestFacade::routeIs($param);
         }
 
         if ( is_string($param[1]) ) {
-            return Request::routeIs($param[0], [$param[1]]);
+            return RequestFacade::routeIs($param[0], [$param[1]]);
         }
 
-        return Request::routeIs(...$param);
+        return RequestFacade::routeIs(...$param);
+    }
 
+    /**
+     * Get the name of the class from the class namespace.
+     *
+     * @param string|object|null $classname
+     * @return string
+     */
+    public static function getClassNameOnly($classname) {
+        if ( ! $classname ) {
+            return '';
+        }
+        if ( is_object($classname) ) {
+            $classname = get_class($classname);
+        }
+        return end(explode("\\", $classname));
+    }
+
+
+    public static function clientIP() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif( !empty($_SERVER['REMOTE_ADDR'])) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+        return "0.0.0.0";
+    }
+
+    public static function float2text(float $value) {
+        return rtrim(sprintf('%.20F', $value), '0');
     }
 
 }

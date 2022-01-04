@@ -19,10 +19,6 @@ trait ResourceControllerTrait {
         $class_name = $configs['model'];
         $query = $class_name::where($configs['id_column'], '!=', null);
 
-        if ( !empty($configs['helper']) ) {
-            $query = $configs['helper']($request, $query, $configs);
-        }
-
         $request->merge(['model_configs' => $configs]);
         switch ( $format ) {
             case 'select2':
@@ -39,7 +35,12 @@ trait ResourceControllerTrait {
         $order = $request->input('order', 'asc');
         $term = $request->query('term');
 
-        $this->filterQuery($query, $term, $configs);
+        if ( !empty($configs['helper']) ) {
+            $query = $configs['helper']($request, $query, $configs);
+        } else {
+            $this->filterQuery($query, $term, $configs);
+        }
+
         $query->orderBy($sort, $order);
         $request->merge(['model_configs' => $configs]);
         return new Select2Collection(Select2Resource::collection($query->get()));
@@ -51,9 +52,15 @@ trait ResourceControllerTrait {
         $limit = $request->input('limit', ( $offset == null )? 50: null );
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
-        $term = $request->query('search');
+        $term = $request->query('term', $request->query('search', ''));
 
-        $this->filterQuery($query, $term, $configs);
+        if ( !empty($configs['helper']) ) {
+            $query = $configs['helper']($request, $query, $configs);
+
+        } else {
+            $this->filterQuery($query, $term, $configs);
+        }
+
         $query->orderBy($sort, $order);
         if ( $offset != null  ) {
             $query = $query->offset($offset);
@@ -67,7 +74,6 @@ trait ResourceControllerTrait {
     }
 
     protected function filterQuery($query, $term, $configs) {
-
         if ( !empty($term) ) {
             if ( !empty($configs["full_text_search"]) ) {
                 $query->FullTextSearch($configs["full_text_search"], $term);
