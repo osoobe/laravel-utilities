@@ -197,10 +197,97 @@ class Utilities {
      * @return mixed
      */
     public static function valueOrDefault($value, $default='') {
-        if ( ! $value ) {
-            return '';
+        if ( empty($value) ) {
+            return $default;
         }
         return $value;
+    }
+
+    /**
+     * find average
+     *
+     * @param float ...$values
+     * @return float
+     */
+    public static function calcAverage(float ...$values) {
+        return array_sum($values) / count($values);
+    }
+
+    /**
+     * find average with no zeros
+     *
+     * @param float ...$values
+     * @return float
+     */
+    public static function calcAverageNoZeros(float ...$values) {
+        $values = static::removeEmpty($values);
+        return array_sum( $values) / count($values);
+    }
+
+    /**
+     * Find highest float
+     *
+     * @param float ...$values
+     * @return float
+     */
+    public static function maxFloat(float ...$values) {
+        return max(...$values);
+    }
+
+    /**
+     * Find the lowest float
+     *
+     * @param float ...$values
+     * @return float
+     */
+    public static function minFloat(float ...$values) {
+        return min(...$values);
+    }
+
+    /**
+     * Find the highest integer
+     *
+     * @param integer ...$values
+     * @return integer
+     */
+    public static function maxInt(int ...$values) {
+        return max(...$values);
+    }
+
+
+    /**
+     * Find the lowest integer
+     *
+     * @param integer ...$values
+     * @return integer
+     */
+    public static function minInt(int ...$values) {
+        return min(...$values);
+    }
+
+
+
+    /**
+     * Remove empty values from array
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function removeEmpty($array) {
+        return array_filter($array, function ($value) {
+            return !empty($value) || $value === 0;
+        });
+    }
+
+
+    /**
+     * Find the lowest value
+     *
+     * @param mixed ...$values
+     * @return integer
+     */
+    public static function minNoZeros(...$values) {
+        return min(static::removeEmpty($values));
     }
 
     /**
