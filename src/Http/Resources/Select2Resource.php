@@ -15,20 +15,22 @@ class Select2Resource extends JsonResource
      */
     public function toArray($request) {
         $configs = $request->input('model_configs');
-        $data = [];
+        $data = $this->getAttributes();
         if ( !empty($configs) ) {
             foreach($configs['includes'] as $key) {
                 $data[$key] = $this->$key;
             }
             $id = $configs['id_column'];
             $text = $configs['text_column'];
-            $data['id'] = $this->$id;
+            $data['id'] = (int) $this->$id;
             $data['text'] = $this->$text;
         } else {
-            $data['id'] = $this->id;
-            $data['text'] = Utilities::getObjectValue($this, ['text', 'name', 'title'], '');
+            if ( empty($data['text']) ) {
+                $data['text'] = Utilities::getObjectValue($this, ['text', 'name', 'title', 'seo_title'], '');
+            }
         }
-        $data['model_id'] = $this->id;
+        $data['model_id'] = (int) $this->id;
+        $data['id'] = (int) $this->id;
         return $data;
     }
 
