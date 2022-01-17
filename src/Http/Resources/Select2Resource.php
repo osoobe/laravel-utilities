@@ -3,6 +3,7 @@
 namespace Osoobe\Utilities\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Osoobe\Utilities\Helpers\Utilities;
 
 class Select2Resource extends JsonResource
 {
@@ -14,16 +15,21 @@ class Select2Resource extends JsonResource
      */
     public function toArray($request) {
         $configs = $request->input('model_configs');
-        foreach($configs['includes'] as $key) {
-            $data[$key] = $this->$key;
+        $data = [];
+        if ( !empty($configs) ) {
+            foreach($configs['includes'] as $key) {
+                $data[$key] = $this->$key;
+            }
+            $id = $configs['id_column'];
+            $text = $configs['text_column'];
+            $data['id'] = $this->$id;
+            $data['text'] = $this->$text;
+        } else {
+            $data['id'] = $this->id;
+            $data['text'] = Utilities::getObjectValue($this, ['text', 'name', 'title'], '');
         }
-        $id = $configs['id_column'];
-        $text = $configs['text_column'];
-        if ( isset($this->id) ) {
-            $data['model_id'] = $this->id;
-        }
-        $data['id'] = $this->$id;
-        $data['text'] = $this->$text;
+        $data['model_id'] = $this->id;
         return $data;
     }
+
 }

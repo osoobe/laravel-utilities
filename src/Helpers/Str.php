@@ -26,6 +26,17 @@ class Str extends ParentStr {
         ]);
     }
 
+        /**
+     * Convert a string to snake case.
+     *
+     * @param  string  $value
+     * @param  string  $delimiter
+     * @return string
+     */
+    public static function ucsnake(string $value, string $delimiter='_')
+    {
+        return static::ucwords(static::snake($value, $delimiter));
+    }
 
 }
 

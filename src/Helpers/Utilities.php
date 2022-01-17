@@ -22,7 +22,23 @@ class Utilities {
         static::setObjectValue($obj, $key, $request->input($key, $default));
     }
 
+    /**
+     * Get object value
+     *
+     * @param mixed $obj
+     * @param array|string $key
+     * @param string $default
+     * @return void
+     */
     public static function getObjectValue($obj, $key, $default='') {
+        if ( is_array($key) ) {
+            foreach($key as $property) {
+                if ( isset($obj->$property) ) {
+                    return $obj->$property;
+                }
+            }
+            return $default;
+        }
         return ( isset($obj->$key) ) ? $obj->$key : $default;
     }
 
@@ -41,6 +57,20 @@ class Utilities {
      */
     public static function setArrayValue(array $array, $key, $value) {
         if ( !empty($value) ) {
+            $array[$key] = $value;
+        }
+    }
+
+    /**
+     * Set array default if empty;
+     *
+     * @param array $array
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public static function setArrayValueIfEmpty(array $array, string $key, $value) {
+        if ( empty($array[$key]) ) {
             $array[$key] = $value;
         }
     }
