@@ -44,7 +44,7 @@ class UtilitiesServiceProvider extends ServiceProvider
                 $this->string('country', 50)->nullable();
                 $this->string('state', 50)->nullable();
                 $this->string('city', 50)->nullable();
-                $this->string('street_address', 100)->nullable();
+                $this->string('street_address', 250)->nullable();
                 $this->string('zip_code', 15)->nullable();
             }
         );
