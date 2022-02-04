@@ -33,17 +33,17 @@ class Utilities {
     public static function getObjectValue($obj, $key, $default='') {
         if ( is_array($key) ) {
             foreach($key as $property) {
-                if ( isset($obj->$property) ) {
+                if ( !empty($obj->$property) ) {
                     return $obj->$property;
                 }
             }
             return $default;
         }
-        return ( isset($obj->$key) ) ? $obj->$key : $default;
+        return ( !empty($obj->$key) ) ? $obj->$key : $default;
     }
 
     public static function getArrayValue(array $array, $key, $default='') {
-        return ( isset($array[$key]) ) ? $array[$key] : $default;
+        return ( !empty($array[$key]) ) ? $array[$key] : $default;
     }
 
 
