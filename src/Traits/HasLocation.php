@@ -47,7 +47,7 @@ trait HasLocation {
     public function getFullAddress() {
         $street_address = Utilities::getObjectValue($this, 'street_address', '');
         $city_address = $this->getCityAddress();
-        return "$street_address $city_address";
+        return trim("$street_address $city_address");
     }
 
 

@@ -55,7 +55,7 @@ class Utilities {
      * @param mixed $value
      * @return void
      */
-    public static function setArrayValue(array $array, $key, $value) {
+    public static function setArrayValue(array &$array, $key, $value) {
         if ( !empty($value) ) {
             $array[$key] = $value;
         }
@@ -69,7 +69,7 @@ class Utilities {
      * @param mixed $value
      * @return void
      */
-    public static function setArrayValueIfEmpty(array $array, string $key, $value) {
+    public static function setArrayValueIfEmpty(array &$array, string $key, $value) {
         if ( empty($array[$key]) ) {
             $array[$key] = $value;
         }
