@@ -28,7 +28,7 @@ class Utilities {
      * @param mixed $obj
      * @param array|string $key
      * @param string $default
-     * @return void
+     * @return mixed
      */
     public static function getObjectValue($obj, $key, $default='') {
         if ( is_array($key) ) {
@@ -464,7 +464,8 @@ class Utilities {
         if ( is_object($classname) ) {
             $classname = get_class($classname);
         }
-        return end(explode("\\", $classname));
+        $strings = explode("\\", $classname);
+        return $strings[count($strings) - 1];
     }
 
 
