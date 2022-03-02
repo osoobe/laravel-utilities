@@ -346,6 +346,33 @@ class Utilities {
         return  '"' . implode('"'.$glue.'"', $array) . '"';
     }
 
+    public static function implodeWithCallback(array $array, string $glue=',', $callback=null): string {
+        $string = "";
+        foreach ($array as $key => $value) {
+            if ( is_array($value) ) {
+                $string .= static::implodeWithCallback($value, $glue, $callback);
+            } else {
+                if ( is_string($callback) ) {
+                    switch (strtolower($callback)) {
+                        case "headline":
+                            $string .=  Str::headline($key).": $value";
+                            break;
+
+                        default:
+                            $string .= "$key: $value";
+                            break;
+                    }
+                } elseif ( is_callable($callback) ) {
+                    $string .= $callback($key, $value);
+                } else {
+                    $string .= "$key: $value";
+                }
+                $string .= $glue;
+            }
+        }
+        return rtrim($string, $glue);
+    }
+
 
 
 

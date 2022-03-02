@@ -221,6 +221,23 @@ trait TimeDiff {
             ->whereDate('created_at', '<=',  $date->copy()->endOfMonth() );
     }
 
+
+    /**
+     * Query between two dates
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder        $query
+     * @param string $column
+     * @param Carbon $start_date
+     * @param Carbon $end_date
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBetweenDates($query, string $column, Carbon $start_date=null, Carbon $end_date=null) {
+        return $query->whereDate($column, '>=',  $start_date )
+            ->when($end_date, function($query, $end_date) use($column) {
+                return $query->whereDate($column, '<=',  $end_date );
+            });
+    }
+
     /**
      * Check if the model was recently created.
      * Default is 1 day.
