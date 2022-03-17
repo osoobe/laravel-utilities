@@ -101,6 +101,32 @@ class Utilities {
         return array_combine($array,$array);
     }
 
+    /**
+     * Add Key to value for associative array 
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function array_map_assoc(array $array){
+        $r = array();
+        foreach ($array as $key=>$value)
+          $r[$key] = "$key ($value)";
+        return $r;
+    }
+
+    /**
+     * Add Key to value for associative array 
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function array_value_to_key_default(array $array, $default=0){
+        $r = array();
+        foreach ($array as $key)
+          $r[$key] = $default;
+        return $r;
+    }
+
     public static function formatDate($date, $format='Y-m-d') {
         if ( ! $date ) {
             return '';
