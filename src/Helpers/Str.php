@@ -38,6 +38,28 @@ class Str extends ParentStr {
         return static::ucwords(static::snake($value, $delimiter));
     }
 
+    /**
+     * Boolean to string
+     *
+     * @param boolean $bool
+     * @param string $format    Options:
+     *                          B -> 'True" or "False'
+     *                          Y -> 'Yes" or "No'
+     * @return bool
+     */
+    public static function boolToString(bool $bool, $format='Y') {
+        if ( $format == 'B' ) {
+            if ( $bool ) {
+                return 'True';
+            }
+            return "False";
+        }
+        if ( $bool ) {
+            return 'Yes';
+        }
+        return "No";
+    }
+
 }
 
 ?>

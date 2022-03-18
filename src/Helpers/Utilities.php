@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request as RequestFacade;
 
 class Utilities {
@@ -536,6 +535,22 @@ class Utilities {
     public static function float2text(float $value) {
         return rtrim(sprintf('%.20F', $value), '0');
     }
+
+
+    /**
+     * Boolean to string
+     *
+     * @param boolean $bool
+     * @param string $format    Options:
+     *                          B -> 'True" or "False'
+     *                          Y -> 'Yes" or "No'
+     * @return bool
+     */
+    public static function boolToString(bool $bool, $format='Y') {
+        return Str::boolToString($bool, $format);
+    }
+
+
 
 }
 

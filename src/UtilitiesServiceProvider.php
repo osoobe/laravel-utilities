@@ -129,7 +129,7 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         \Illuminate\Support\Facades\Validator::extend('phone', function($attribute, $value, $parameters, $validator) {
-            return preg_match(config('validation.phone.pattern', '%^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$%i'), $value) && strlen($value) >= 10;
+            return Helpers\PhoneNumberHelper::isValid($value);
         });
 
         \Illuminate\Support\Facades\Validator::replacer('phone', function($message, $attribute, $rule, $parameters) {
