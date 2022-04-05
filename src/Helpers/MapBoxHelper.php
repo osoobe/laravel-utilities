@@ -27,6 +27,28 @@ class MapBoxHelper {
         }
     }
 
+
+
+    public static function queryCoordinates(string $apikey, $latitude, $longitude, $limit=1, $params=[]) {
+
+        $defaults = [
+            "limit" => $limit,
+            "language" => "en-US",
+            "country" => "US"
+        ];
+        $params = array_merge($defaults, $params);
+        $params['access_token'] = $apikey;
+        $param_str = http_build_query($params);
+        $query_string = "https://api.mapbox.com/geocoding/v5/mapbox.places/$longitude,$latitude.json?$param_str";
+
+        try {
+            return Http::get($query_string)->json();
+        } catch (\Throwable $th) {
+            Log::warning($th->getMessage());
+            return False;
+        }
+    }
+
     public static function getCordsFromData($mapbox_data, $is_point=true) {
         if ( empty($mapbox_data) ) {
             return null;

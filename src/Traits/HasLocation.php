@@ -4,6 +4,9 @@ namespace  Osoobe\Utilities\Traits;
 
 use Osoobe\Utilities\Helpers\Utilities;
 
+/**
+ * @deprecated 1.0.0
+ */
 trait HasLocation {
 
 
