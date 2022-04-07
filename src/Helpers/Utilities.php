@@ -101,7 +101,7 @@ class Utilities {
     }
 
     /**
-     * Add Key to value for associative array 
+     * Add Key to value for associative array
      *
      * @param array $array
      * @return array
@@ -114,7 +114,7 @@ class Utilities {
     }
 
     /**
-     * Add Key to value for associative array 
+     * Add Key to value for associative array
      *
      * @param array $array
      * @return array
@@ -551,6 +551,26 @@ class Utilities {
     }
 
 
+
+    /**
+     * Compare two models
+     *
+     * @param mixed $model1
+     * @param mixed $model2
+     * @param string $property
+     * @return bool
+     */
+    public static function model_compare ($model1, $model2, $property='id')
+    {
+        if ( empty($model1) || empty($model2) ) {
+            return false;
+        }
+
+        return (
+            get_class($model1) == get_class($model2) &&
+            $model1->$property == $model2->$property
+        );
+    }
 
 }
 
