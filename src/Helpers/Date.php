@@ -45,6 +45,18 @@ class Date {
         ];
     }
 
+
+    /**
+     * Difference in number of hours for interval
+     *
+     * @param integer $interval
+     * @return array
+     */
+    public static function diffInHourlyInterval(int $interval=1) {
+        $hours = today()->startOfYear()->diffInHours();
+        return $hours % $interval;
+    }
+
 }
 
 
