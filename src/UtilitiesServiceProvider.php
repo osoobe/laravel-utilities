@@ -62,8 +62,8 @@ class UtilitiesServiceProvider extends ServiceProvider
 
         Blueprint::macro(
             'coordinates', function () {
-                $this->decimal('latitude', 10, 8)->nullable();
-                $this->decimal('longitude', 11, 8)->nullable();
+                $this->decimal('latitude', 16, 13)->nullable();
+                $this->decimal('longitude', 16, 13)->nullable();
             }
         );
         Blueprint::macro(

@@ -2,6 +2,7 @@
 
 namespace Osoobe\Utilities\Http\Resources;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Pagination\AbstractPaginator;
@@ -53,5 +54,22 @@ class BootstrapTableCollection extends ResourceCollection
         ];
         $data["total"] = ( !empty($this->paginator) )? $this->paginator->total() :  count($data["rows"]);
         return $data;
+    }
+
+
+
+    /**
+     * Create a new anonymous resource collection.
+     *
+     * @param  mixed  $resource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public static function collection($resource)
+    {
+        return tap(new AnonymousResourceCollection($resource, static::class), function ($collection) {
+            if (property_exists(static::class, 'preserveKeys')) {
+                $collection->preserveKeys = (new static([]))->preserveKeys === true;
+            }
+        });
     }
 }

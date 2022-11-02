@@ -455,6 +455,18 @@ class Utilities {
         return $data;
     }
 
+    public static function outputCSV($filename, $data) {
+        $f = fopen($filename, 'w'); // Configure fopen to create, open, and write data.
+        fputcsv($f, array_keys($data[0])); // Add the keys as the column headers
+        // Loop over the array and passing in the values only.
+        foreach ($data as $row)
+        {
+            fputcsv($f, $row);
+        }
+        // Close the file
+        fclose($f);
+    }
+
 
     public static function getRequestData($keys) {
         $data = collect(request()->all())->filter(function($value, $key) use ($keys) {
@@ -573,6 +585,3 @@ class Utilities {
     }
 
 }
-
-
-?>
