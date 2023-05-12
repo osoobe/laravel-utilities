@@ -128,6 +128,11 @@ class MapBoxHelper
             $longitude = $cords->longitude;
         }
 
+        if ( !empty($full_address) && str_contains($full_address, ',') ) {
+            $street_address = LocationHelper::santitizeAddress(explode(',', $full_address)[0]);
+        }
+
+
         return (object) [
             'street_address' => $street_address,
             'city' => $city,
