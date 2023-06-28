@@ -403,12 +403,12 @@ class Utilities {
 
         /**
      * @param $number
-     * @return bool|mixed|string
+     * @return null|mixed|string
      */
     public static function formatPhoneNumber($number) {
 
         if ( empty($number) ) {
-            return false;
+            return null;
         }
 
         $number = str_replace('+','',$number);
@@ -416,6 +416,7 @@ class Utilities {
         $number = str_replace('-','',$number);
         $number = str_replace('(','',$number);
         $number = str_replace(')','',$number);
+        $number = str_replace('.','',$number);
 
         // https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers
         // https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
@@ -426,7 +427,7 @@ class Utilities {
             }
             return "+$number";
         }
-        return false;
+        return null;
     }
 
 
