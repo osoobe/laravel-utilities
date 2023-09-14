@@ -52,6 +52,8 @@ trait ResourceControllerTrait {
         $limit = $request->input('limit', ( $offset == null )? 50: null );
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
+        $state = $request->input('state', null);
+        $slug = $request->input('slug', null);
         $term = $request->query('term', $request->query('search', ''));
 
         if ( !empty($configs['helper']) ) {
@@ -61,10 +63,19 @@ trait ResourceControllerTrait {
             $this->filterQuery($query, $term, $configs);
         }
 
+        if ($state != null) {
+            $query->where("state", "=", $state);
+        }
+
+        if ($slug != null) {
+            $query->where("slug", "=", $slug);
+        }
+
         $query->orderBy($sort, $order);
         if ( $offset != null  ) {
             $query = $query->offset($offset);
         }
+
         $request->merge(['model_configs' => $configs]);
         $data = ( $limit == null && $offset == null)? $query->get() : $query->paginate($limit);
         if ( !empty($configs['resource']) ) {
