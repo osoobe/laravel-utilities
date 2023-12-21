@@ -411,12 +411,7 @@ class Utilities {
             return null;
         }
 
-        $number = str_replace('+','',$number);
-        $number = str_replace(' ','',$number);
-        $number = str_replace('-','',$number);
-        $number = str_replace('(','',$number);
-        $number = str_replace(')','',$number);
-        $number = str_replace('.','',$number);
+        $number = preg_replace("/[^0-9]/", "", $number);
 
         // https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers
         // https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
