@@ -426,6 +426,11 @@ class Utilities {
     }
 
 
+    public static function getPhoneNumberBase(string $phone_number) {
+        return str_replace('+1', '', $phone_number);
+    }
+
+
     public static function csvToArray($filename = '', $delimiter = ',') {
         if (!file_exists($filename) || !is_readable($filename))
             return false;
