@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/osoobe/utilities.svg?style=flat-square)](https://packagist.org/packages/osoobe/utilities)
 
 ## Install
-`composer require osoobe/utilities`
+`composer require osoobe/laravel-utilities`
 
 ## Usage
 Write a few lines about the usage of this package.
