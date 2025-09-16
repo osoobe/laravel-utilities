@@ -585,4 +585,35 @@ class Utilities {
         );
     }
 
+
+    /**
+     * Generate regex for email variations
+     *
+     * @param string $email
+     * @return string
+     */
+    public static function getEmailVariationRegex($email) {
+        // Split email into local and domain
+        list($local, $domain) = explode('@', $email, 2);
+
+        // Normalize local part: remove dots and strip +tag
+        $normalized = preg_replace('/\+.*/', '', $local);
+        $normalized = str_replace('.', '', $normalized);
+
+        // Build regex:
+        // - Allow optional dots between characters
+        // - Allow optional "+anything"
+        // - Match exact domain
+        $regexLocal = '';
+        $chars = str_split($normalized);
+        foreach ($chars as $char) {
+            $regexLocal .= $char . '\.?';
+        }
+        // Remove trailing optional dot
+        $regexLocal = rtrim($regexLocal, '\.?');
+
+        $regex = '^' . $regexLocal . '(?:\+.*)?@' . preg_quote($domain, '/') . '$';
+        return $regex;
+    }
+
 }
