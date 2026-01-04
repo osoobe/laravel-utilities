@@ -47,7 +47,7 @@ class ImageHelper {
 
 
         // $base64Image = str_replace(' ', '+', $base64Image);
-        $imageData = base64_decode($base64Image);
+        $imageData = base64_decode($base64Image, true);
 
         if ($imageData === false) {
             return false;
