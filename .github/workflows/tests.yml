@@ -65,7 +65,7 @@ jobs:
         run: |
           composer require "illuminate/support:${{ matrix.laravel }}" --no-interaction --no-update
           composer require --dev "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+          composer update --prefer-dist --no-interaction --no-progress --no-audit
 
       - name: Run tests
         run: vendor/bin/phpunit --colors=always
