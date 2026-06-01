@@ -12,7 +12,7 @@ class Str extends ParentStr {
 
 
     public static function nameParts(string $full_name) {
-        $splitName = explode(' ', $full_name); // Restricts it to only 2 values, for names like Billy Bob Jones
+        $splitName = explode(' ', trim($full_name)); // Restricts it to only 2 values, for names like Billy Bob Jones
         $first_name = $splitName[0];
         $last_name = $splitName[ count($splitName) - 1];
 
