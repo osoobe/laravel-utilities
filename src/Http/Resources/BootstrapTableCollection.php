@@ -53,6 +53,11 @@ class BootstrapTableCollection extends ResourceCollection
             "rows" => $this->collection
         ];
         $data["total"] = ( !empty($this->paginator) )? $this->paginator->total() :  count($data["rows"]);
+
+        if ($metadata = $request->attributes->get('response_metadata')) {
+            $data = array_merge($data, $metadata);
+        }
+
         return $data;
     }
 
